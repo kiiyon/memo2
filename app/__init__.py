@@ -1,11 +1,20 @@
-# app/__init__.py
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 def create_app():
-    app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'your_secret_key_here'
+    app = Flask(__name__, template_folder='templates')  # templates フォルダの指定
 
-    # routes.py の init_app 関数をインポート
+    # アプリケーション設定
+    app.config['SECRET_KEY'] = 'your_secret_key_here'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///memo.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    # データベースの初期化
+    db.init_app(app)
+
+    # routes.py の import
     from .routes import init_app
     init_app(app)
 

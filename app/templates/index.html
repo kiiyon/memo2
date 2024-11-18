@@ -1,12 +1,24 @@
-<!-- app/templates/index.html -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Index Page</title>
+    <title>Memo App</title>
 </head>
 <body>
-    <h1>URLの値: {{ number if number else 'None' }}</h1>  <!-- URLから受け取ったnumberを表示 -->
-    <a href =/about>Aboutへ</a>
+    <h1>Memo App</h1>
+
+    <!-- メモ一覧 -->
+    <ul>
+        {% for memo in memos %}
+            <li>{{ memo.content }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- メモ追加フォーム -->
+    <h2>Add New Memo</h2>
+    <form action="/add" method="POST">
+        <textarea name="content" required></textarea>
+        <button type="submit">Add Memo</button>
+    </form>
 </body>
 </html>

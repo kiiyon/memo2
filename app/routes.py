@@ -1,14 +1,12 @@
-# app/routes.py
 from flask import render_template
+from . import db
+from .models import Memo
 
 def init_app(app):
     @app.route('/')
     def index():
-        return render_template('index.html')  # index.htmlを表示
-
-    @app.route('/<int:number>')
-    def show_number(number):
-        return render_template('index.html', number=number)  # URLで受け取ったnumberを表示
+        memos = Memo.query.all()  # すべてのメモを取得
+        return render_template('index.html', memos=memos)
 
     @app.route('/about')
     def about():
@@ -17,3 +15,12 @@ def init_app(app):
     @app.route('/hensu')
     def hensu():
         return render_template('hensu.html')  # hensu.htmlを表示
+    
+    @app.route('/add', methods=['POST'])
+    def add():
+        content = request.form.get('content')  # フォームからメモの内容を取得
+        if content:
+            new_memo = Memo(content=content)  # 新しいメモを作成
+            db.session.add(new_memo)  # データベースに追加
+            db.session.commit()  # コミットして保存
+        return redirect(url_for('index'))  # メモ一覧ページにリダイレクト
