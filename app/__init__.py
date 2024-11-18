@@ -15,7 +15,7 @@ def create_app():
     db.init_app(app)
 
     # routes.py の import
-    from .routes import init_app
-    init_app(app)
+    from .routes import init_app  # 相対インポート
+    init_app(app)  # ここでinit_appを呼び出す
 
     return app

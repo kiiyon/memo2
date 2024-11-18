@@ -10,7 +10,15 @@
     <!-- メモ一覧 -->
     <ul>
         {% for memo in memos %}
-            <li>{{ memo.content }}</li>
+            <li>
+                {{ memo.content }}
+                <!-- 編集リンク -->
+                <a href="{{ url_for('edit', memo_id=memo.id) }}">Edit</a>
+                <!-- 削除フォーム -->
+                <form action="/delete/{{ memo.id }}" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
         {% endfor %}
     </ul>
 
